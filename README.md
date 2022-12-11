@@ -1,6 +1,6 @@
-# SKSE "Hello, world!"
+# SKSE - writing to log files
 
-The simplest possible SKSE plugin for Skyrim using:
+A simple SKSE plugin for Skyrim using:
 
 - C++
 - CMake
@@ -11,9 +11,15 @@ The simplest possible SKSE plugin for Skyrim using:
 
 ### What does it do?
 
-After running Skyrim, once at the Main Menu, press the `~` key to open the game console.
+It writes to a log file.
 
-You will see that we printed `"Hello, world!"` to the console at the Main Menu 🐉
+Read [`plugin.cpp`](plugin.cpp) for a bunch of details on what it's doing!
+
+I *highly recommend* you create a log file for your mod.
+
+It's useful for:
+- your own debugging, while developing the mod
+- debugging issues from your users (**ask your users to provide .log files in their bug reports on Nexus/GitHub!**)
 
 ### Requires:
 
