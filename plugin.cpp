@@ -1,6 +1,6 @@
 // Include spdlog support for a basic file logger
 // See below for more details
-#include "spdlog/sinks/basic_file_sink.h"
+#include <spdlog/sinks/basic_file_sink.h>
 
 // spdlog documentation
 // https://github.com/gabime/spdlog
