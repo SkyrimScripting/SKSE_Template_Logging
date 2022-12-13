@@ -6,33 +6,48 @@
 // https://github.com/gabime/spdlog
 
 void SetupLog() {
+    // Get the path to the SKSE logs folder
+    // This will generally be your Documents\My Games\Skyrim Special Edition\SKSE
+    //                          or Documents\My Games\Skyrim Special Edition GOG\SKSE
+    auto logsFolder = SKSE::log::log_directory();
+
+    // I really don't understand why the log_directory() might not be provided sometimes,
+    // but... just incase... ?
+    if (!logsFolder) {
+        SKSE::stl::report_and_fail("SKSE log_directory not provided, logs disabled.");
+        return;
+    }
+
     // Get the name of this SKSE plugin. We will use it to name the log file.
     auto pluginName = SKSE::PluginDeclaration::GetSingleton()->GetName();
 
-    // Get the path to the SKSE log directory
-    // and specify that the log file will be inside of that folder
-    // and named "<plugin name>.log"
-    //
-    // Note: if you want to be truly accurate, you should check whether or not
-    // SKSE::log::log_directory provided a value (it is std::optional) else error.
-    // But, whatever.
-    auto logFilePath = *SKSE::log::log_directory() / std::format("{}.log", pluginName);
+    // Generate a path to our log file
+    // e.g. Documents\My Games\Skyrim Special Edition\SKSE\OurPlugin.log
+    auto logFilePath = *logsFolder / std::format("{}.log", pluginName);
 
     // Now, use whatever you want, but spdlog comes with CommonLibSSE
     // and is the SKSE logger of choice. So you might as well use it!
 
-    // This first line will set the default spdlog logger to
-    // a basic logger using our log file path:
-    spdlog::set_default_logger(spdlog::basic_logger_mt("plugin-log", logFilePath.string(), true));
-    // ^ "plugin-log" is literally whatever, it's a log name registered by spdlog
-    //   and the 'true' tells spdlog to clear the file before starting to write to it
-    //   so we don't keep writing more content to a file every time the game runs
+    // Let's use a spdlog "basic file sink"
+    // So like... just a file logger...
+    // But the spdlog interface really wants a Shared Pointer to the "basic file sink"
+    // So we'll make one of those!
+    auto fileLoggerPtr = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.string(), true);
 
-    // Now, what is the default log "level" that you want?
-    // Maybe you want to #ifdef NDEBUG set this to 'trace' for your Debug builds
-    // and set it to 'info' for your Release builds? You do you, my friend.
-    // I'm gonna log everything by seting this to 'trace'
+    // Ok, but set_default_logger() specifically wants a Shared Pointer to a spdlog::logger
+    // So we'll make one of those!
+    // We'll give it the logger we made above. Yeah, I know, kinda redundant right? Welcome to C++
+    auto loggerPtr = std::make_shared<spdlog::logger>("log", std::move(fileLoggerPtr));
+    spdlog::set_default_logger(std::move(loggerPtr));
+
+    // Yay, let's setup spdlog now!
+    // By default, let's print out *everything* including trace messages
+    // You might want to do something like #ifdef NDEBUG then use trace, else use info or higher severity.
     spdlog::set_level(spdlog::level::trace);
+
+    // This bit is important. When does spdlog WRITE to the file?
+    // Make sure it does it everytime you log a message, otherwise it won't write to the file until the game exits.
+    spdlog::flush_on(spdlog::level::info);
 }
 
 // Read about this more below...
