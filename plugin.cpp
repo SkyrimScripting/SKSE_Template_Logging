@@ -2,6 +2,10 @@
 // See below for more details
 #include <spdlog/sinks/basic_file_sink.h>
 
+// Allows us to check if a debugger is attached (optional, see below)
+#include <Windows.h>
+#include <spdlog/sinks/msvc_sink.h>
+
 // spdlog documentation
 // https://github.com/gabime/spdlog
 
@@ -34,10 +38,24 @@ void SetupLog() {
     // So we'll make one of those!
     auto fileLoggerPtr = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFilePath.string(), true);
 
-    // Ok, but set_default_logger() specifically wants a Shared Pointer to a spdlog::logger
-    // So we'll make one of those!
+    // // Ok, but set_default_logger() specifically wants a Shared Pointer to a spdlog::logger
+    // // So we'll make one of those!
+    std::shared_ptr<spdlog::logger> loggerPtr;
+
+    // Now, this is pretty cool.
+    // If you want the logs to show up *inside your IDE* when you are debugging, use this code.
+    // Whenever a debugger is attached, the logs are setup with an *additional* "sink" to goto
+    // your IDE's debug output window.
+    if (IsDebuggerPresent()) {
+        auto debugLoggerPtr = std::make_shared<spdlog::sinks::msvc_sink_mt>();
+        spdlog::sinks_init_list loggers{fileLoggerPtr, debugLoggerPtr};
+        loggerPtr = std::make_shared<spdlog::logger>("log", loggers);
+    } else {
+        // If no debugger is attached, only log to the file.
+        loggerPtr = std::make_shared<spdlog::logger>("log", std::move(fileLoggerPtr));
+    }
+
     // We'll give it the logger we made above. Yeah, I know, kinda redundant right? Welcome to C++
-    auto loggerPtr = std::make_shared<spdlog::logger>("log", std::move(fileLoggerPtr));
     spdlog::set_default_logger(std::move(loggerPtr));
 
     // Yay, let's setup spdlog now!
