@@ -1,3 +1,5 @@
+> 📜 other templates available at https://github.com/SkyrimScripting/SKSE_Templates
+
 # SKSE - writing to log files
 
 A simple SKSE plugin for Skyrim using:
