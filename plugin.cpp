@@ -49,7 +49,7 @@ void SetupLog() {
     if (IsDebuggerPresent()) {
         auto debugLoggerPtr = std::make_shared<spdlog::sinks::msvc_sink_mt>();
         spdlog::sinks_init_list loggers{fileLoggerPtr, debugLoggerPtr};
-        loggerPtr = std::make_shared<spdlog::logger>("log", loggers);
+        loggerPtr = std::make_shared<spdlog::logger>("log", std::move(loggers));
     } else {
         // If no debugger is attached, only log to the file.
         loggerPtr = std::make_shared<spdlog::logger>("log", std::move(fileLoggerPtr));
