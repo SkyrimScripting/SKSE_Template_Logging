@@ -11,7 +11,7 @@ A simple SKSE plugin for Skyrim using:
 
 > Because this uses CommonLibSSE NG, it supports Skyrim SSE, AE, GOG, and VR!
 
-### What does it do?
+## What does it do?
 
 It writes to a log file.
 
