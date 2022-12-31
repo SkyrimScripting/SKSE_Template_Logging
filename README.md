@@ -4,6 +4,7 @@
 
 - [SKSE - writing to log files](#skse---writing-to-log-files)
   - [What does it do?](#what-does-it-do)
+  - [Logging in your own mods](#logging-in-your-own-mods)
   - [Requirements](#requirements)
   - [Project setup](#project-setup)
   - [Setup your own repository](#setup-your-own-repository)
@@ -23,13 +24,26 @@ A simple SKSE plugin for Skyrim using:
 
 It writes to a log file.
 
-Read [`plugin.cpp`](plugin.cpp) for a bunch of details on what it's doing!
+Read [`plugin.cpp`](plugin.cpp) and [`logger_annotated.h`](logger_annotated.h) for more details on what it's doing!
 
-I *highly recommend* you create a log file for your mod.
+I __*highly recommend*__ you create a log file for your mod.
 
 It's useful for:
 - your own debugging, while developing the mod
 - debugging issues from your users (**ask your users to provide .log files in their bug reports on Nexus/GitHub!**)
+
+## Logging in your own mods
+
+Just use this template!
+
+Or:
+
+1. Copy the [`logger.h`](logger.h) from this template into your own mod
+2. Write `#include "logger.h"` in your main `plugin.cpp` file
+3. Inside of your SKSE initialization function, call `SetupLog()`
+5. _That's all! You can now use the `logger::` functions_
+
+> If you plan on using a debugger and would like to see your logs appear inside of your IDE's Debug Console, then use [`logger_with_debugger_support.h`](logger_with_debugger_support.h) instead of [`logger.h`](logger.h).
 
 ## Requirements
 
