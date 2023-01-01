@@ -38,10 +38,17 @@ Just use this template!
 
 Or:
 
-1. Copy the [`logger.h`](logger.h) from this template into your own mod
-2. Write `#include "logger.h"` in your main `plugin.cpp` file
-3. Inside of your SKSE initialization function, call `SetupLog()`
-5. _That's all! You can now use the `logger::` functions_
+1. Copy the contents of [`logger.h`](logger.h)
+1. Paste the code at the top of your own `plugin.cpp`
+1. Call `SetupLog();` inside of your `SKSEPluginLoad`
+1. Bam! Done. Use `logger::info("We did it!");`
+
+Or:
+
+1. Copy the [`logger.h`](logger.h) file from this template into your own mod
+1. Write `#include "logger.h"` in your main `plugin.cpp` file
+1. Call `SetupLog();` inside of your `SKSEPluginLoad`
+1. Bam! Done. Use `logger::info("We did it!");`
 
 > If you plan on using a debugger and would like to see your logs appear inside of your IDE's Debug Console, then use [`logger_with_debugger_support.h`](logger_with_debugger_support.h) instead of [`logger.h`](logger.h).
 
