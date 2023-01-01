@@ -1,4 +1,3 @@
-
 // Include spdlog support for a basic file logger
 // See below for more details
 #include <spdlog/sinks/basic_file_sink.h>
