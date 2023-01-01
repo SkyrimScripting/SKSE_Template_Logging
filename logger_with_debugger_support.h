@@ -1,3 +1,5 @@
+#pragma once
+
 // This is a snippet you can put at the top of all of your SKSE plugins!
 
 #include <Windows.h>
