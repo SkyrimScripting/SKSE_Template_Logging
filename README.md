@@ -2,7 +2,7 @@
 
 # SKSE - Write to Log File
 
-- [SKSE - writing to log files](#skse---writing-to-log-files)
+- [SKSE - Write to Log File](#skse---writing-to-log-files)
   - [What does it do?](#what-does-it-do)
   - [Logging in your own mods](#logging-in-your-own-mods)
   - [Requirements](#requirements)
