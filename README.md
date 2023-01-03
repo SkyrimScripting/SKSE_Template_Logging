@@ -1,6 +1,6 @@
 > 📜 other templates available at https://github.com/SkyrimScripting/SKSE_Templates
 
-# SKSE - writing to log files
+# SKSE - Write to Log File
 
 - [SKSE - writing to log files](#skse---writing-to-log-files)
   - [What does it do?](#what-does-it-do)
